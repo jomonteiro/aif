@@ -11,8 +11,8 @@
       </div>
       <h2>2. Classificação (Scoring)</h2>
       <div class="grid4">
-        <label *ngFor="let k of scoringKeys">{{k.toUpperCase()}}
-          <select [formControlName]="k"><option *ngFor="let o of getScoringOptions(k)" [value]="o">{{o}}</option></select>
+        <label *ngFor="let k of ['c1','c2','c3','c4','c5','c6','c7']">{{k.toUpperCase()}}
+          <select [formControlName]="k"><option *ngFor="let o of scoringOptions[k as keyof typeof scoringOptions]" [value]="o">{{o}}</option></select>
         </label>
       </div>
       <h2>3. Governance</h2>
