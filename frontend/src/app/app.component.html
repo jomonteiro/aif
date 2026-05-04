@@ -1,0 +1,37 @@
+<div class="page">
+  <header><h1>AI FACTORY <span>Use Case Intake</span></h1><div>Status: <b>{{status()}}</b></div></header>
+  <main>
+    <section class="left" [formGroup]="form">
+      <h2>1. Identificação</h2>
+      <div class="grid2">
+        <input placeholder="Nome do Use Case" formControlName="useCaseName" />
+        <select formControlName="department"><option value="">Departamento</option><option *ngFor="let d of departments" [value]="d">{{d}}</option></select>
+        <input placeholder="Owner" formControlName="owner" />
+        <textarea placeholder="Descrição" formControlName="description"></textarea>
+      </div>
+      <h2>2. Classificação (Scoring)</h2>
+      <div class="grid4">
+        <label *ngFor="let k of ['c1','c2','c3','c4','c5','c6','c7']">{{k.toUpperCase()}}
+          <select [formControlName]="k"><option *ngFor="let o of scoringOptions[k as keyof typeof scoringOptions]" [value]="o">{{o}}</option></select>
+        </label>
+      </div>
+      <h2>3. Governance</h2>
+      <div class="grid4">
+        <input placeholder="Cost Center" formControlName="costCenter" />
+        <select formControlName="environment"><option>Sandbox</option><option>Produção</option></select>
+        <select formControlName="sensitivity"><option>Baixa</option><option>Média</option><option>Alta</option></select>
+        <input type="number" formControlName="businessValue" />
+      </div>
+    </section>
+    <aside class="right">
+      <h2>Resultado</h2>
+      <div class="card score">Score Total <b>{{total()}}</b></div>
+      <div class="card">Plataforma Recomendada <b>{{platform()}}</b></div>
+      <div class="card" *ngIf="alertRequired()">⚠️ Regra obrigatória: C7=3 requer AI Factory.</div>
+      <div class="buttons">
+        <button (click)="saveDraft()">Guardar Draft</button>
+        <button class="primary" (click)="submitAic()">Submeter para AIC</button>
+      </div>
+    </aside>
+  </main>
+</div>
