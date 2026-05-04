@@ -14,8 +14,7 @@ export class AppComponent {
   constructor(private fb: FormBuilder, private http: HttpClient) {}
 
   departments = ['Financeiro', 'RH', 'Operações', 'Comercial', 'TI'];
-  scoringKeys = ['c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7'] as const;
-  scoringOptions: Record<(typeof this.scoringKeys)[number], number[]> = {
+  scoringOptions = {
     c1: [1, 2, 3], c2: [1, 2, 3], c3: [1, 2, 3], c4: [1, 2, 3], c5: [1, 2, 3], c6: [1, 2, 3], c7: [1, 2, 3]
   };
 
@@ -38,10 +37,6 @@ export class AppComponent {
   platform = computed(() => this.total() >= 14 || Number(this.form.value.c7) === 3 ? 'AI Factory' : 'Copilot Studio');
   alertRequired = computed(() => Number(this.form.value.c7) === 3);
   status = signal('Draft');
-
-  getScoringOptions(key: (typeof this.scoringKeys)[number]) {
-    return this.scoringOptions[key];
-  }
 
   saveDraft() { this.submit('draft'); }
   submitAic() { this.submit('submitted'); }
