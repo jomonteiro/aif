@@ -24,3 +24,12 @@ Configure no `backend/.env`:
 - `COSMOS_CONTAINER`
 
 Sem estas variáveis, os dados ficam em memória.
+
+## Gerador de Assistentes Virtuais
+A UI agora inclui uma área para:
+- Colar o YAML do agente (`name` e `version`)
+- Colar o Markdown do prompt
+- Gerar automaticamente o ficheiro Python do cliente do agente
+
+Endpoint:
+- `POST /api/assistants/generate`

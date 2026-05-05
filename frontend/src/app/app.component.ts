@@ -27,7 +27,9 @@ export class AppComponent {
     costCenter: ['', Validators.required],
     environment: ['Sandbox', Validators.required],
     sensitivity: ['Média', Validators.required],
-    businessValue: [0, Validators.required]
+    businessValue: [0, Validators.required],
+    agentYaml: ['name: DocAgentTest\nversion: "2"', Validators.required],
+    promptMd: ['# Prompt do Agente\nDescreva aqui o comportamento do assistente.']
   });
 
   total = computed(() => Object.entries(this.form.value)
@@ -37,9 +39,20 @@ export class AppComponent {
   platform = computed(() => this.total() >= 14 || Number(this.form.value.c7) === 3 ? 'AI Factory' : 'Copilot Studio');
   alertRequired = computed(() => Number(this.form.value.c7) === 3);
   status = signal('Draft');
+  generatedAgent = signal('');
 
   saveDraft() { this.submit('draft'); }
   submitAic() { this.submit('submitted'); }
+
+  generateAssistant() {
+    const payload = {
+      agentYaml: this.form.value.agentYaml,
+      promptMd: this.form.value.promptMd
+    };
+    this.http.post<{ pyCode: string }>('http://localhost:3000/api/assistants/generate', payload).subscribe((r) => {
+      this.generatedAgent.set(r.pyCode);
+    });
+  }
 
   private submit(status: 'draft' | 'submitted') {
     this.http.post('http://localhost:3000/api/usecases', { ...this.form.getRawValue(), status }).subscribe(() => {
